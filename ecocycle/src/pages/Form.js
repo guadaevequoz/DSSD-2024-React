@@ -2,26 +2,28 @@ import React, { useState } from "react";
 
 const Form = () => {
   const [showModal, setShowModal] = useState(false);
-  const [materialName, setMaterialName] = useState("");
+  const [materialType, setMaterialType] = useState("");
   const [materialQuantity, setMaterialQuantity] = useState("");
   const [materials, setMaterials] = useState([]);
+
+  // esto se deberia ir a buscar a la api supongo
+  const materialTypes = ["Cartón", "Papel", "Vidrio", "Aluminio"];
 
   const handleAddMaterial = () => {
     setShowModal(true);
   };
 
   const handleSaveMaterial = () => {
-    if (materialName && materialQuantity) {
+    if (materialType && materialQuantity) {
       setMaterials([
         ...materials,
-        { name: materialName, quantity: materialQuantity },
+        { name: materialType, quantity: materialQuantity },
       ]);
-      // limpio campos
-      setMaterialName("");
+      setMaterialType("");
       setMaterialQuantity("");
       setShowModal(false);
     } else {
-      // acá iría una lógica de que completen los campos
+      //lógica para q completen todo?
     }
   };
 
@@ -113,15 +115,19 @@ const Form = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h2 className="text-2xl mb-4">Agregar material</h2>
             <div className="mb-4">
-              <label className="block mb-2 text-sm font-bold">
-                Nombre del material
-              </label>
-              <input
-                type="text"
+              <label className="block mb-2 text-sm font-bold">Tipo</label>
+              <select
                 className="w-full p-2 border border-gray-300 rounded-lg"
-                value={materialName}
-                onChange={(e) => setMaterialName(e.target.value)}
-              />
+                value={materialType}
+                onChange={(e) => setMaterialType(e.target.value)}
+              >
+                <option value="">Selecciona un tipo</option>
+                {materialTypes.map((type, index) => (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="mb-4">
               <label className="block mb-2 text-sm font-bold">
