@@ -39,6 +39,10 @@ const Form = () => {
     setMaterials(materials.filter((_, i) => i !== index));
   };
 
+  const handleCancel = (index) => {
+    setMaterials([]);
+  };
+
   return (
     <div className="p-10">
       <h1 className="text-4xl font-bold mb-4">Nuevo recorrido</h1>
@@ -102,7 +106,7 @@ const Form = () => {
           </button>
           <button
             className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
-            onClick={handleCloseModal}
+            onClick={handleCancel}
           >
             Cancelar
           </button>
@@ -112,7 +116,7 @@ const Form = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+          <div className="bg-white p-6 rounded-lg shadow-lg sm:w-50 md:w-1/3">
             <h2 className="text-2xl mb-4">Agregar material</h2>
             <div className="mb-4">
               <label className="block mb-2 text-sm font-bold">Tipo</label>
