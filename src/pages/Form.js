@@ -56,7 +56,7 @@ const Form = () => {
   return (
     <>
       <Navbar user={user} />
-      <div className="p-10">
+      <div className="md:p-10 p-4">
         <h1 className="text-4xl font-bold mb-4">Nuevo recorrido</h1>
         <hr className="mb-4" />
         <div className="flex justify-between items-center mb-4">

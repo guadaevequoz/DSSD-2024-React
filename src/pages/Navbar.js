@@ -116,7 +116,7 @@ const Navbar = ({ user }) => {
                   to="/solicitudes"
                   className="text-white hover:text-gray-400 md:text-xl"
                 >
-                  Solicitudes
+                  Recibir entregas
                 </Link>
               </li>
               <li>
