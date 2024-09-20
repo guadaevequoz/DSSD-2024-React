@@ -27,6 +27,7 @@ const authService = {
   logout() {
     this.isAuthenticated = false;
     this.user = undefined;
+    //localStorage.clear();
   },
 
   isLoggedIn() {

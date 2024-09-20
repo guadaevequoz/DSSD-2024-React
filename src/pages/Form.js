@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import authService from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Form = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [materialType, setMaterialType] = useState("");
   const [materialQuantity, setMaterialQuantity] = useState("");
@@ -17,6 +18,12 @@ const Form = () => {
   useEffect(() => {
     if (authService.getUser()) setUser(authService.getUser());
     else navigate("/login");
+
+    if (id) {
+      // deberia hacer la busqueda del recorrido
+      setMaterials(JSON.parse(localStorage.getItem("recorrido")).materials);
+      console.log(id);
+    }
   }, []);
 
   const handleAddMaterial = () => {
@@ -42,15 +49,29 @@ const Form = () => {
   };
 
   const handleSaveRoute = () => {
-    console.log(materials);
+    let recorrido = {
+      user: user,
+      materials: materials,
+      id: 1,
+    };
+    localStorage.setItem("recorrido", JSON.stringify(recorrido));
+    console.log(recorrido);
   };
 
   const handleDeleteMaterial = (index) => {
     setMaterials(materials.filter((_, i) => i !== index));
   };
 
+  const handleEditMaterial = (index) => {
+    //setMaterials(materials.filter((_, i) => i !== index));
+  };
+
   const handleCancel = (index) => {
     setMaterials([]);
+  };
+
+  const handleEnd = (index) => {
+    console.log("acá llamo al otro modal!!");
   };
 
   return (
@@ -99,6 +120,12 @@ const Form = () => {
                   >
                     x
                   </button>
+                  <button
+                    className="text-gray-500 hover:text-blue-500 mx-2"
+                    onClick={() => handleEditMaterial(index)}
+                  >
+                    e
+                  </button>
                 </div>
               </div>
             ))
@@ -110,18 +137,30 @@ const Form = () => {
         {/* Botones de guardar o cancelar */}
         <div className="flex items-center mb-4">
           <div className="flex justify-end">
-            <button
-              className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
-              onClick={handleSaveRoute}
-            >
-              Cargar recorrido
-            </button>
-            <button
-              className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
-              onClick={handleCancel}
-            >
-              Cancelar
-            </button>
+            {user.rol === "recolector" && (
+              <>
+                <button
+                  className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
+                  onClick={handleSaveRoute}
+                >
+                  Cargar recorrido
+                </button>
+                <button
+                  className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </button>
+              </>
+            )}
+            {user.rol === "deposito" && (
+              <button
+                className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
+                onClick={handleEnd}
+              >
+                Finalizar
+              </button>
+            )}
           </div>
         </div>
 

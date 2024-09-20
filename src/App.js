@@ -10,7 +10,8 @@ function App() {
       {/* rutas */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/form" element={<Form />} />
+        {/* <Route path="/form" element={<Form />} /> */}
+        <Route path="/form/:id?" element={<Form />} />
         <Route path="/login" element={<Login />} />
         <Route path="/solicitudes" element={<Solicitudes />} />
       </Routes>

@@ -16,7 +16,8 @@ const Solicitudes = () => {
   }, []);
 
   const handleStart = () => {
-    console.log("aaaa");
+    console.log(recolector);
+    navigate(`/form/${recolector.recorrido.id}`); // acá deberia ir el id del recorrido
   };
 
   const handleCancel = (index) => {
@@ -33,7 +34,8 @@ const Solicitudes = () => {
           nombre: "Walter Bates",
           dni: "12345678",
           email: "walter.bates@unlp.edu.ar",
-          pendiente: false, // o false si no hay recorridos pendientes
+          pendiente: true, // o false si no hay recorridos pendientes,
+          recorrido: JSON.parse(localStorage.getItem("recorrido")),
         });
         setMensaje("");
       } else {
