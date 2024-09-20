@@ -14,7 +14,6 @@ const Form = () => {
   // esto se deberia ir a buscar a la api supongo
   const materialTypes = ["Cartón", "Papel", "Vidrio", "Aluminio"];
 
-  //Se renderiza "Board" solo una vez
   useEffect(() => {
     if (authService.getUser()) setUser(authService.getUser());
     else navigate("/login");

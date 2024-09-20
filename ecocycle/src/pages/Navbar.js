@@ -76,7 +76,7 @@ const Navbar = ({ user }) => {
           </>
         )}
 
-        {user && (
+        {user.rol === "recolector" && (
           <>
             <ul
               className={`flex space-x-4 md:flex ${
@@ -89,6 +89,34 @@ const Navbar = ({ user }) => {
                   className="text-white hover:text-gray-400 md:text-xl"
                 >
                   Formulario
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/login"
+                  className="text-white hover:text-gray-400 md:text-xl"
+                  onClick={handleLogout}
+                >
+                  Salir
+                </Link>
+              </li>
+            </ul>
+          </>
+        )}
+
+        {user.rol === "deposito" && (
+          <>
+            <ul
+              className={`flex space-x-4 md:flex ${
+                isOpen ? "block" : "hidden"
+              } md:block`}
+            >
+              <li>
+                <Link
+                  to="/solicitudes"
+                  className="text-white hover:text-gray-400 md:text-xl"
+                >
+                  Solicitudes
                 </Link>
               </li>
               <li>

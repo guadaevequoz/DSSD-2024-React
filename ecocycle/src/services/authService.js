@@ -8,8 +8,16 @@ const authService = {
       this.isAuthenticated = true;
       this.user = {
         DNI: "12345678",
+        rol: "recolector",
       };
       console.log("holaa", this.user);
+      return true;
+    } else if (DNI === "23456789") {
+      this.isAuthenticated = true;
+      this.user = {
+        DNI: "23456789",
+        rol: "deposito",
+      };
       return true;
     } else {
       return false;
