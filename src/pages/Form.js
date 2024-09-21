@@ -7,12 +7,14 @@ const Form = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
+  const [showModalEnd, setShowModalEnd] = useState(false);
   const [materialType, setMaterialType] = useState("");
   const [materialQuantity, setMaterialQuantity] = useState("");
   const [materials, setMaterials] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [user, setUser] = useState("");
   const [saved, setSaved] = useState(false);
+  const [ended, setEnded] = useState(false);
 
   // esto se deberia ir a buscar a la api supongo
   const materialTypes = ["Cartón", "Papel", "Vidrio", "Aluminio"];
@@ -89,7 +91,17 @@ const Form = () => {
   };
 
   const handleEnd = (index) => {
-    console.log("acá llamo al otro modal!!");
+    setShowModalEnd(true);
+  };
+
+  const handleSave = () => {
+    //acá seeguro llamara a bonita supongo
+    setEnded(true);
+    navigate("/solicitudes");
+  };
+
+  const handleCloseModalFinalizar = () => {
+    setShowModalEnd(false);
   };
 
   return (
@@ -224,7 +236,7 @@ const Form = () => {
           </>
         )}
 
-        {/* Modal */}
+        {/* Modal carga/editar */}
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg sm:w-50 md:w-1/3">
@@ -267,6 +279,34 @@ const Form = () => {
                 <button
                   className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
                   onClick={handleCloseModal}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal finalizar */}
+        {showModalEnd && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg sm:w-50 md:w-1/3">
+              <h2 className="text-2xl mb-4">Confirmar recorrido</h2>
+              <div className="mb-4">
+                Estas a punto de confirmar los siguientes datos:
+                {materials.length > 0 &&
+                  materials.map((material) => <li>{material.name}</li>)}
+              </div>
+              <div className="flex justify-end">
+                <button
+                  className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
+                  onClick={handleSave}
+                >
+                  Confirmar
+                </button>
+                <button
+                  className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
+                  onClick={handleCloseModalFinalizar}
                 >
                   Cancelar
                 </button>
