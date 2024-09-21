@@ -30,6 +30,7 @@ const Solicitudes = () => {
     // simular búsqueda de recolector
     if (dni !== "") {
       if (dni === "12345678") {
+        //acá busca al recolector y me trae tmb el recorrido, lo hardcodeo para evitar escribir mucho
         setRecolector({
           nombre: "Walter Bates",
           dni: "12345678",

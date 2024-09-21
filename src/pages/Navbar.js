@@ -14,10 +14,10 @@ export default function Navbar({ user }) {
   return (
     <nav className="bg-teal-800 p-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <span className="font-bold text-xl">
+              <span className="font-bold">
                 <svg
                   className="w-24 md:w-[177px] h-auto"
                   viewBox="0 0 177 44"
@@ -46,7 +46,7 @@ export default function Navbar({ user }) {
                 <li className="list-none">
                   <Link
                     to="/"
-                    className="text-white hover:text-gray-400 md:text-xl"
+                    className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Home
                   </Link>
@@ -57,7 +57,7 @@ export default function Navbar({ user }) {
                     <li className="list-none">
                       <Link
                         to="/login"
-                        className="text-white hover:text-gray-400 md:text-xl"
+                        className="text-white hover:text-gray-400 md:text-lg"
                       >
                         Iniciar sesión
                       </Link>
@@ -70,7 +70,7 @@ export default function Navbar({ user }) {
                     <li className="list-none">
                       <Link
                         to="/form"
-                        className="text-white hover:text-gray-400 md:text-xl"
+                        className="text-white hover:text-gray-400 md:text-lg"
                       >
                         Formulario
                       </Link>
@@ -78,7 +78,7 @@ export default function Navbar({ user }) {
                     <li className="list-none">
                       <Link
                         to="/login"
-                        className="text-white hover:text-gray-400 md:text-xl"
+                        className="text-white hover:text-gray-400 md:text-lg"
                         onClick={handleLogout}
                       >
                         Salir
@@ -92,7 +92,7 @@ export default function Navbar({ user }) {
                     <li className="list-none">
                       <Link
                         to="/solicitudes"
-                        className="text-white hover:text-gray-400 md:text-xl"
+                        className="text-white hover:text-gray-400 md:text-lg"
                       >
                         Recibir entregas
                       </Link>
@@ -100,7 +100,7 @@ export default function Navbar({ user }) {
                     <li className="list-none">
                       <Link
                         to="/login"
-                        className="text-white hover:text-gray-400 md:text-xl"
+                        className="text-white hover:text-gray-400 md:text-lg"
                         onClick={handleLogout}
                       >
                         Salir
@@ -114,7 +114,7 @@ export default function Navbar({ user }) {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-primary-foreground hover:bg-primary-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-expanded={isOpen}
             >
               <span className="sr-only">
@@ -175,7 +175,7 @@ export default function Navbar({ user }) {
         <div className="p-5">
           <button
             onClick={() => setIsOpen(false)}
-            className="absolute top-4 right-4 inline-flex items-center justify-center p-2 rounded-md text-primary-foreground hover:bg-primary-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            className="absolute top-4 right-4 inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           >
             <span className="sr-only">Close main menu</span>
             <svg
@@ -200,7 +200,7 @@ export default function Navbar({ user }) {
                 <li className="list-none">
                   <Link
                     to="/login"
-                    className="text-white hover:text-gray-400 md:text-xl"
+                    className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Iniciar sesión
                   </Link>
@@ -213,7 +213,7 @@ export default function Navbar({ user }) {
                 <li className="list-none">
                   <Link
                     to="/form"
-                    className="text-white hover:text-gray-400 md:text-xl"
+                    className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Formulario
                   </Link>
@@ -221,7 +221,7 @@ export default function Navbar({ user }) {
                 <li className="list-none">
                   <Link
                     to="/login"
-                    className="text-white hover:text-gray-400 md:text-xl"
+                    className="text-white hover:text-gray-400 md:text-lg"
                     onClick={handleLogout}
                   >
                     Salir
@@ -235,7 +235,7 @@ export default function Navbar({ user }) {
                 <li className="list-none">
                   <Link
                     to="/solicitudes"
-                    className="text-white hover:text-gray-400 md:text-xl"
+                    className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Recibir entregas
                   </Link>
@@ -243,7 +243,7 @@ export default function Navbar({ user }) {
                 <li className="list-none">
                   <Link
                     to="/login"
-                    className="text-white hover:text-gray-400 md:text-xl"
+                    className="text-white hover:text-gray-400 md:text-lg"
                     onClick={handleLogout}
                   >
                     Salir
