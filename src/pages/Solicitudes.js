@@ -52,7 +52,7 @@ const Solicitudes = () => {
     <>
       <Navbar user={user} />
       <div className="md:p-10 p-4">
-        <h1 className="text-4xl font-bold mb-4">Recibir entrega</h1>
+        <h1 className="md:text-4xl text-xl font-bold mb-4">Recibir entrega</h1>
         <hr className="mb-4" />
         <div className="border-b mb-4">
           <h2 className="font-semibold">Buscar recolector</h2>
