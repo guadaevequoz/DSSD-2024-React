@@ -24,7 +24,7 @@ const Form = () => {
     else navigate("/login");
 
     if (id) {
-      // deberia hacer la busqueda del recorrido
+      // depositoService.searchRoutes(id)
       setMaterials(JSON.parse(localStorage.getItem("recorrido")).materials);
     }
   }, []);
@@ -71,6 +71,7 @@ const Form = () => {
       materials: materials,
       id: 1,
     };
+    //recolectorService.saveRoute()
     localStorage.setItem("recorrido", JSON.stringify(recorrido));
     setSaved(true);
   };
@@ -95,8 +96,8 @@ const Form = () => {
   };
 
   const handleSave = () => {
-    //acá seeguro llamara a bonita supongo
     setEnded(true);
+    //depositoService.confirmRoute()
     navigate("/solicitudes");
   };
 
