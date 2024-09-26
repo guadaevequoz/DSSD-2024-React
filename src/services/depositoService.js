@@ -1,19 +1,27 @@
 import axios from "axios";
 
-const url = `http://localhost:8080/??`;
+const url = `http://localhost:8080/API`;
 
-const confirmRoute = async (route, user) => {
+/**
+ * Valida la ruta en un deposito
+ * @param {*} caseId
+ * @param {*} materials
+ * @param {*} depositoId
+ * @returns
+ */
+const confirmRoute = async (caseId, materials, depositoId) => {
   try {
-    const response = await axios.post(
-      url,
+    const response = await axios.put(
+      url + `/bpm/humanTaskcaseId%3D{{${caseId}}}`,
       {
-        route: route,
-        user: user,
+        materials: materials,
+        deposito_id: depositoId,
       },
       {
         headers: {
           Accept: "application/json",
-          "Content-type": "application/json",
+          "Content-type": "application/x-www-form-urlencoded",
+          "X-Bonita-API-Token": "holacomoestas",
         },
       }
     );
@@ -23,12 +31,35 @@ const confirmRoute = async (route, user) => {
   }
 };
 
+/**
+ * Busca una ruta por caseId
+ * @param {*} id
+ * @returns
+ */
+const getRouteByCaseId = async (id) => {
+  try {
+    const response = await axios.get(url + "humanTask", {
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/x-www-form-urlencoded",
+        "X-Bonita-API-Token": "holacomoestas",
+      },
+      params: { id: id },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
+};
+
+// esto por ahora no se usa porque no tenemos api
 const getRouteByRecolectorDNI = async (dni) => {
   try {
     const response = await axios.get(url, {
       headers: {
         Accept: "application/json",
-        "Content-type": "application/json",
+        "Content-type": "application/x-www-form-urlencoded",
+        "X-Bonita-API-Token": "holacomoestas",
       },
       params: { dni: dni },
     });
@@ -57,4 +88,5 @@ export const depositoService = {
   confirmRoute,
   getRouteByRecolectorDNI,
   searchRoutes,
+  getRouteByCaseId,
 };

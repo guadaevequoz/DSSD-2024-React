@@ -1,3 +1,7 @@
+import axios from "axios";
+
+const url = `http://localhost:8080/bonita`;
+
 const authService = {
   isAuthenticated: false,
   user: undefined,
@@ -37,6 +41,27 @@ const authService = {
   getUser() {
     console.log("aaa", this.user);
     return this.user;
+  },
+
+  loginToAPI: async (userId, materials) => {
+    try {
+      const response = await axios.post(
+        url + `/loginService`,
+        {
+          username: "walter.bates",
+          password: "bpm",
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al hacer la solicitud:", error);
+    }
   },
 };
 

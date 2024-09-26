@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import authService from "../services/authService";
 import { useNavigate, useParams } from "react-router-dom";
+import { depositoService } from "../services/depositoService";
+import { recolectorService } from "../services/recolectorService";
 
 const Form = () => {
   const navigate = useNavigate();
@@ -23,8 +25,10 @@ const Form = () => {
     if (authService.getUser()) setUser(authService.getUser());
     else navigate("/login");
 
+    // id = caseId
     if (id) {
-      // depositoService.searchRoutes(id)
+      //let ruta = depositoService.getRouteByCaseId(id);
+      //setMaterials(JSON.parse(ruta).materials);      // depositoService.searchRoutes(id)
       setMaterials(JSON.parse(localStorage.getItem("recorrido")).materials);
     }
   }, []);
@@ -71,7 +75,7 @@ const Form = () => {
       materials: materials,
       id: 1,
     };
-    //recolectorService.saveRoute()
+    //recolectorService.saveRoute(user.id, materials)
     localStorage.setItem("recorrido", JSON.stringify(recorrido));
     setSaved(true);
   };
@@ -97,7 +101,7 @@ const Form = () => {
 
   const handleSave = () => {
     setEnded(true);
-    //depositoService.confirmRoute()
+    //depositoService.confirmRoute(id, materials, depositId)
     navigate("/solicitudes");
   };
 

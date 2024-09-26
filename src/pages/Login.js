@@ -12,6 +12,7 @@ const Login = () => {
     const success = authService.login(DNI, password);
     if (success) {
       navigate("/");
+      //authService.loginToAPI();
     } else {
       alert("DNI o contraseña incorrectos");
     }

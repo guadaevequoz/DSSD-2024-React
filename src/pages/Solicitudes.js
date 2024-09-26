@@ -48,6 +48,13 @@ const Solicitudes = () => {
     }
   };
 
+  const handleDNIChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setDni(value);
+    }
+  };
+
   return (
     <>
       <Navbar user={user} />
@@ -60,9 +67,12 @@ const Solicitudes = () => {
             <input
               type="text"
               value={dni}
-              onChange={(e) => setDni(e.target.value)}
+              onChange={handleDNIChange}
               placeholder="DNI"
               className="border px-4 py-2 flex-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              maxLength={8}
+              pattern="\d{1,8}" // Solo permite entre 1 y 8 dígitos
+              title="Solo se permiten números de hasta 8 dígitos"
             />
             <button
               onClick={buscarRecolector}

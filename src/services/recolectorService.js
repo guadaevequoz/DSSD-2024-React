@@ -1,19 +1,27 @@
 import axios from "axios";
 
-const url = `http://localhost:8080/??`;
+const url = `http://localhost:8080/API/`;
+const processId = "1";
 
-const saveRoute = async (route, user) => {
+/**
+ * Subir el form de la ruta
+ * @param {*} userId
+ * @param {*} materials
+ * @returns
+ */
+const saveRoute = async (userId, materials) => {
   try {
     const response = await axios.post(
-      url,
+      url + `/bpm/process/{{${processId}}}/instantiation`,
       {
-        route: route,
-        user: user,
+        recolector_id: userId,
+        materials: materials,
       },
       {
         headers: {
           Accept: "application/json",
-          "Content-type": "application/json",
+          "Content-type": "application/x-www-form-urlencoded",
+          "X-Bonita-API-Token": "holacomoestas",
         },
       }
     );
@@ -23,4 +31,4 @@ const saveRoute = async (route, user) => {
   }
 };
 
-export default saveRoute;
+export const recolectorService = { saveRoute };
