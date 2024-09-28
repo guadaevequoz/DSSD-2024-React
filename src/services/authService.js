@@ -12,6 +12,7 @@ const authService = {
     if (DNI === "12345678") {
       this.isAuthenticated = true;
       this.user = {
+        id: 1,
         DNI: "12345678",
         rol: "recolector",
       };
@@ -23,6 +24,7 @@ const authService = {
       this.user = {
         DNI: "23456789",
         rol: "deposito",
+        depositId: 1
       };
       return true;
     } else {
@@ -41,7 +43,6 @@ const authService = {
   },
 
   getUser() {
-    console.log("aaa", this.user);
     return this.user;
   },
 

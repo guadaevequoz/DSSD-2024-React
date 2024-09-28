@@ -32,12 +32,12 @@ const Form = () => {
     if (authService.getUser()) setUser(authService.getUser());
     else navigate("/login");
 
-    // id = caseId
+/*     // id = caseId
     if (id) {
       //let ruta = depositoService.getRouteByCaseId(id);
       //setMaterials(JSON.parse(ruta).materials);      // depositoService.searchRoutes(id)
       setMaterials(JSON.parse(localStorage.getItem("recorrido")).materials);
-    }
+    } */
   }, []);
 
   const handleAddMaterial = () => {
@@ -89,7 +89,6 @@ const Form = () => {
 
     const res = await recolectorService.saveRoute(user.id, recorrido["materials"]);
     setResponse(res);
-    localStorage.setItem("recorrido", JSON.stringify(recorrido));
     setSaved(true);
   };
 

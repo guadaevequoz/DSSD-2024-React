@@ -14,8 +14,9 @@ const saveRoute = async (userId, materials) => {
     const response = await axios.post(
       url + `/bpm/process/${processId}/instantiation`,
       {
-        name: "ujuju",
-        materials: materials,
+        "name": "ujuju",
+        //"user_id": authService.getUser().id, --> falta actualizar BD
+        "materials": materials,
       },
       {
         headers: {

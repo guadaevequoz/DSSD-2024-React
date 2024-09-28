@@ -1,6 +1,7 @@
 import axios from "axios";
+import authService from "./authService";
 
-const url = `http://localhost:8080/API`;
+const url = `http://localhost:15922/bonita/API`;
 
 /**
  * Valida la ruta en un deposito
@@ -21,7 +22,7 @@ const confirmRoute = async (caseId, materials, depositoId) => {
         headers: {
           Accept: "application/json",
           "Content-type": "application/x-www-form-urlencoded",
-          "X-Bonita-API-Token": "holacomoestas",
+          "X-Bonita-API-Token": authService.getToken(),
         },
       }
     );
@@ -38,13 +39,13 @@ const confirmRoute = async (caseId, materials, depositoId) => {
  */
 const getRouteByCaseId = async (id) => {
   try {
-    const response = await axios.get(url + "humanTask", {
+    const response = await axios.get(url + "/bpm/humanTask?f=caseId%3D" + id, {
       headers: {
         Accept: "application/json",
         "Content-type": "application/x-www-form-urlencoded",
-        "X-Bonita-API-Token": "holacomoestas",
+        "X-Bonita-API-Token": authService.getToken(),
       },
-      params: { id: id },
+      withCredentials: true
     });
     return response.data;
   } catch (error) {

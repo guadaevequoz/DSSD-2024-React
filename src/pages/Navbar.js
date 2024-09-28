@@ -13,9 +13,9 @@ export default function Navbar({ user }) {
 
   return (
     <nav className="bg-teal-800 p-4">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center w-full justify-between">
+          <div className="flex w-full items-center justify-between">
             <div className="flex-shrink-0">
               <span className="font-bold">
                 <svg
@@ -72,8 +72,22 @@ export default function Navbar({ user }) {
                         to="/form"
                         className="text-white hover:text-gray-400 md:text-lg"
                       >
-                        Formulario
+                        Nuevo recorrido
                       </Link>
+                    </li>
+                    <li className="list-none">
+                      <Link
+                        to="/"
+                        className="text-white hover:text-gray-400 md:text-lg">
+                          Mis recorridos
+                      </Link>
+                    </li>
+                    <li className="list-none">
+                      <Link
+                        to="/"
+                        className="text-white hover:text-gray-400 md:text-lg">
+                          Notificaciones
+                        </Link>
                     </li>
                     <li className="list-none">
                       <Link
@@ -210,23 +224,37 @@ export default function Navbar({ user }) {
 
             {user.rol === "recolector" && (
               <>
-                <li className="list-none">
-                  <Link
-                    to="/form"
-                    className="text-white hover:text-gray-400 md:text-lg"
-                  >
-                    Formulario
-                  </Link>
-                </li>
-                <li className="list-none">
-                  <Link
-                    to="/login"
-                    className="text-white hover:text-gray-400 md:text-lg"
-                    onClick={handleLogout}
-                  >
-                    Salir
-                  </Link>
-                </li>
+                <li className="list-none text-end">
+                      <Link
+                        to="/form"
+                        className="text-white hover:text-gray-400 md:text-lg"
+                      >
+                        Nuevo recorrido
+                      </Link>
+                    </li>
+                    <li className="list-none text-end">
+                      <Link
+                        to="/"
+                        className="text-white hover:text-gray-400 md:text-lg">
+                          Mis recorridos
+                      </Link>
+                    </li>
+                    <li className="list-none text-end">
+                      <Link
+                        to="/"
+                        className="text-white hover:text-gray-400 md:text-lg">
+                          Notificaciones
+                        </Link>
+                    </li>
+                    <li className="list-none text-end">
+                      <Link
+                        to="/login"
+                        className="text-white hover:text-gray-400 md:text-lg"
+                        onClick={handleLogout}
+                      >
+                        Salir
+                      </Link>
+                    </li>
               </>
             )}
 

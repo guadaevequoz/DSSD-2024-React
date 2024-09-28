@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import authService from "../services/authService";
+import { depositoService } from "../services/depositoService";
 import { useNavigate } from "react-router-dom";
 
 const Solicitudes = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
-  const [dni, setDni] = useState("");
-  const [recolector, setRecolector] = useState(null);
+  const [recorrido, setRecorrido] = useState("");
+  const [nroOrden, setNroOrden] = useState(null);
   const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
@@ -16,43 +17,34 @@ const Solicitudes = () => {
   }, []);
 
   const handleStart = () => {
-    console.log(recolector);
-    navigate(`/form/${recolector.recorrido.id}`); // acá deberia ir el id del recorrido
+    navigate(`/form/${recorrido["id"]}`);
   };
 
   const handleCancel = (index) => {
-    setDni("");
-    setRecolector(null);
+    setNroOrden(null);
+    setRecorrido(null);
     setMensaje("");
   };
 
-  const buscarRecolector = () => {
+  const buscarRecorrido = async () => {
     // simular búsqueda de recolector
-    if (dni !== "") {
-      if (dni === "12345678") {
-        //acá busca al recolector y me trae tmb el recorrido, lo hardcodeo para evitar escribir mucho
-        setRecolector({
-          nombre: "Walter Bates",
-          dni: "12345678",
-          email: "walter.bates@unlp.edu.ar",
-          pendiente: true, // o false si no hay recorridos pendientes,
-          recorrido: JSON.parse(localStorage.getItem("recorrido")),
-        });
-        setMensaje("");
+    if (nroOrden) {
+      const res = await depositoService.getRouteByCaseId(nroOrden);
+      if (res.length > 0 && res[0]["state"] === "ready") {
+        setRecorrido(res[0]);
       } else {
-        setRecolector(null);
-        setMensaje("No se encontró un recolector con ese DNI");
+        setRecorrido(null);
+        setMensaje("No se encontró una entrega pendiente con ese número de orden");
       }
+      setNroOrden("");
     } else {
       handleCancel();
     }
   };
 
-  const handleDNIChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setDni(value);
-    }
+  const handleInputChange = (e) => {
+    const value = +e.target.value;
+    setNroOrden((curr) => isNaN(value) ? curr : value);
   };
 
   return (
@@ -62,71 +54,29 @@ const Solicitudes = () => {
         <h1 className="md:text-4xl text-xl font-bold mb-4">Recibir entrega</h1>
         <hr className="mb-4" />
         <div className="border-b mb-4">
-          <h2 className="font-semibold">Buscar recolector</h2>
+          <h2 className="font-semibold">Buscar entrega</h2>
           <div className="flex items-center mb-4">
             <input
               type="text"
-              value={dni}
-              onChange={handleDNIChange}
-              placeholder="DNI"
+              value={nroOrden}
+              onChange={handleInputChange}
+              placeholder="Número de orden..."
               className="border px-4 py-2 flex-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              maxLength={8}
-              pattern="\d{1,8}" // Solo permite entre 1 y 8 dígitos
-              title="Solo se permiten números de hasta 8 dígitos"
             />
             <button
-              onClick={buscarRecolector}
+              onClick={buscarRecorrido}
               className="bg-teal-700 ml-1 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
             >
               Buscar
             </button>
           </div>
         </div>
-
-        {recolector ? (
-          <div>
-            <div className="mb-4">
-              <label className="block font-semibold">Nombre completo</label>
-              <input
-                type="text"
-                value={recolector.nombre}
-                readOnly
-                className="border p-2 w-full rounded bg-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block font-semibold">DNI</label>
-              <input
-                type="text"
-                value={recolector.dni}
-                readOnly
-                className="border p-2 w-full rounded bg-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block font-semibold">Correo electrónico</label>
-              <input
-                type="email"
-                value={recolector.email}
-                readOnly
-                className="border p-2 w-full rounded bg-gray-100"
-              />
-            </div>
-            <div
-              className={`p-4 rounded text-center max-w-md ${
-                recolector.pendiente
-                  ? "bg-green-100 text-green-800"
-                  : "bg-gray-100"
-              }`}
-            >
-              {recolector.pendiente
-                ? "El recolector tiene un recorrido pendiente para entregar"
-                : "El recolector no tiene recorridos pendientes de entrega"}
-            </div>
-
-            {recolector.pendiente && (
-              <div className="flex items-center mb-4 mt-4">
-                <div className="flex justify-end">
+      </div>
+      {recorrido ? (
+              <div className="flex w-full">
+              <div className="flex flex-col mx-auto">
+                <p>Se encontró un recorrido pendiente con el número #{recorrido["caseId"]}, cargado el {new Date(recorrido["reached_state_date"]).toLocaleDateString("es")}.</p>
+                <div className="mx-auto my-4">
                   <button
                     className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
                     onClick={handleStart}
@@ -141,19 +91,18 @@ const Solicitudes = () => {
                   </button>
                 </div>
               </div>
-            )}
-          </div>
-        ) : mensaje && dni !== "" ? (
-          <div className="p-4 rounded max-w-md bg-red-100 text-red-600 text-center">
-            {mensaje}
-          </div>
-        ) : (
-          <div className="max-w-md p-4 rounded bg-gray-100 text-center">
-            Ingrese un DNI en el buscador de arriba para iniciar la búsqueda.
-          </div>
-        )}
-      </div>
-    </>
+            </div>
+      
+      ) : mensaje ? (
+        <div className="p-4 rounded bg-red-100 text-red-600 text-center">
+          {mensaje}
+        </div>
+      ) : (
+        <div className="p-4 rounded bg-gray-100 text-center w-full text-black/80">
+          Ingrese un número de orden en el buscador de arriba para iniciar la búsqueda.
+        </div>
+      )}
+  </>
   );
 };
 
