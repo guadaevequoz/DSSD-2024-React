@@ -17,6 +17,7 @@ const Form = () => {
   const [user, setUser] = useState("");
   const [saved, setSaved] = useState(false);
   const [ended, setEnded] = useState(false);
+  const [response, setResponse] = useState(null);
 
   // esto se deberia ir a buscar a la api supongo
   const materialTypes = [
@@ -75,7 +76,7 @@ const Form = () => {
     setShowModal(false);
   };
 
-  const handleSaveRoute = () => {
+  const handleSaveRoute = async () => {
 
     let recorrido = {
       "materials": materials.map((el) => { 
@@ -86,7 +87,8 @@ const Form = () => {
       }),
     };
 
-    recolectorService.saveRoute(user.id, recorrido["materials"]);
+    const res = await recolectorService.saveRoute(user.id, recorrido["materials"]);
+    setResponse(res);
     localStorage.setItem("recorrido", JSON.stringify(recorrido));
     setSaved(true);
   };
@@ -140,11 +142,10 @@ const Form = () => {
           )}
         </div>
 
-        {saved && (
+        {(saved && response) && (
           <div className="mb-6">
             <div className="flex items-center justify-between p-4 mb-2 border rounded-lg bg-green-100 shadow-sm text-green-800">
-              Se ha cargado tu recorrido! Dirigete al deposito correspondiente
-              para que el mismo sea recolectado.
+              Se ha cargado tu recorrido con el número #{response["caseId"]}! Dirígete al depósito con el número indicado para que la orden sea recibida.
             </div>
           </div>
         )}
