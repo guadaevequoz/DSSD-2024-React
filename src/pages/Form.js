@@ -19,7 +19,13 @@ const Form = () => {
   const [ended, setEnded] = useState(false);
 
   // esto se deberia ir a buscar a la api supongo
-  const materialTypes = ["Cartón", "Papel", "Vidrio", "Aluminio"];
+  const materialTypes = [
+    { id: 1, name: "Cartón" },
+    { id: 2, name: "Vidrio" },
+    { id: 3, name: "Madera"},
+    { id: 4, name: "Papel" },
+    { id: 5, name: "Tela" }
+  ];
 
   useEffect(() => {
     if (authService.getUser()) setUser(authService.getUser());
@@ -54,7 +60,7 @@ const Form = () => {
         // agregar nuevo material
         setMaterials([
           ...materials,
-          { name: materialType, quantity: materialQuantity },
+          { name: materialType, quantity: +materialQuantity },
         ]);
       }
       setMaterialType("");
@@ -70,12 +76,17 @@ const Form = () => {
   };
 
   const handleSaveRoute = () => {
+
     let recorrido = {
-      user: user,
-      materials: materials,
-      id: 1,
+      "materials": materials.map((el) => { 
+        return {
+          "material_id": +el.name,
+          "material_amount": +el.quantity
+        }
+      }),
     };
-    //recolectorService.saveRoute(user.id, materials)
+
+    recolectorService.saveRoute(user.id, recorrido["materials"]);
     localStorage.setItem("recorrido", JSON.stringify(recorrido));
     setSaved(true);
   };
@@ -252,13 +263,13 @@ const Form = () => {
                 <label className="block mb-2 text-sm font-bold">Tipo</label>
                 <select
                   className="w-full p-2 border border-gray-300 rounded-lg"
-                  value={materialType}
+                  value=""
                   onChange={(e) => setMaterialType(e.target.value)}
                 >
-                  <option value="">Selecciona un tipo</option>
+                  <option value={materialType}>Selecciona un tipo</option>
                   {materialTypes.map((type, index) => (
-                    <option key={index} value={type}>
-                      {type}
+                    <option key={index} value={type.id}>
+                      {type.name}
                     </option>
                   ))}
                 </select>

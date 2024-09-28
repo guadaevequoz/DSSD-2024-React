@@ -12,7 +12,7 @@ const url = `http://localhost:8080/API`;
 const confirmRoute = async (caseId, materials, depositoId) => {
   try {
     const response = await axios.put(
-      url + `/bpm/humanTaskcaseId%3D{{${caseId}}}`,
+      url + `/bpm/humanTaskcaseId%3D${caseId}`,
       {
         materials: materials,
         deposito_id: depositoId,

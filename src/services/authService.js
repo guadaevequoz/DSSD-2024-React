@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = `http://localhost:8080/bonita`;
+const url = `http://localhost:15922/bonita`;
+let apiToken;
 
 const authService = {
   isAuthenticated: false,
@@ -14,6 +15,7 @@ const authService = {
         DNI: "12345678",
         rol: "recolector",
       };
+      this.loginToAPI();
       console.log("holaa", this.user);
       return true;
     } else if (DNI === "23456789") {
@@ -43,26 +45,36 @@ const authService = {
     return this.user;
   },
 
-  loginToAPI: async (userId, materials) => {
+  loginToAPI: async () => {
     try {
+      const params = new URLSearchParams();
+      
+      params.append("username", "walter.bates");
+      params.append("password", "bpm");
+
       const response = await axios.post(
-        url + `/loginService`,
-        {
-          username: "walter.bates",
-          password: "bpm",
-        },
+        url + `/loginservice`, params,
         {
           headers: {
-            Accept: "application/json",
-            "Content-type": "application/x-www-form-urlencoded",
+            "Content-type": "application/x-www-form-urlencoded"
           },
-        }
+          withCredentials: true
+        },
       );
+      apiToken = document.cookie
+        .split(" ")
+        .find(el => el.startsWith("X-Bonita-API-Token"))
+        .split("=")[1];
+
       return response.data;
     } catch (error) {
       console.error("Error al hacer la solicitud:", error);
     }
   },
+
+  getToken: () => {
+    return apiToken;
+  }
 };
 
 export default authService;
