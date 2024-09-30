@@ -10,21 +10,41 @@ const url = `http://localhost:15922/bonita/API`;
  * @param {*} depositoId
  * @returns
  */
-const confirmRoute = async (caseId, materials, depositoId) => {
+const confirmRoute = async (caseId, materials) => {
   try {
+
+    const route = await getRouteByCaseId(caseId);
+
+    console.log(materials);
+    
     const response = await axios.put(
-      url + `/bpm/humanTaskcaseId%3D${caseId}`,
+      url + `/bpm/humanTask/${route[0].id}`,
       {
-        materials: materials,
-        deposito_id: depositoId,
+        "assigned_id": 4,
+        "state": "completed",
+        "variables": [
+          {
+            "name": "materialesDeposito",
+            "value": materials.map((el) => { 
+              return {
+                "material_id": +el.id,
+                "material_amount": +el.quantity
+              }
+            })
+          },
+          { 
+            "name": "depositoId",
+            "value": authService.getUser().depositId
+          }
+        ]
       },
       {
         headers: {
-          Accept: "application/json",
-          "Content-type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
           "X-Bonita-API-Token": authService.getToken(),
         },
-      }
+        withCredentials: true
+      },
     );
     return response.data;
   } catch (error) {
@@ -70,6 +90,26 @@ const getRouteByRecolectorDNI = async (dni) => {
   }
 };
 
+const getRouteMaterials = async (caseId) => {
+  try {
+    const response = await axios.get(url + `/bpm/caseVariable/${caseId}/materialesRecolector`, {
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/x-www-form-urlencoded",
+        "X-Bonita-API-Token": authService.getToken(),
+      },
+      withCredentials: true
+    });
+    
+    let data = response.data.value.replace(/=/g, ":");
+    data = data.replace(/(\w+):/g, '"$1":');
+
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
+}
+
 const searchRoutes = async (id) => {
   try {
     const response = await axios.get(url, {
@@ -90,4 +130,5 @@ export const depositoService = {
   getRouteByRecolectorDNI,
   searchRoutes,
   getRouteByCaseId,
+  getRouteMaterials
 };

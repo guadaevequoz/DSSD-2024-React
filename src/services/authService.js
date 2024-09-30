@@ -17,7 +17,6 @@ const authService = {
         rol: "recolector",
       };
       this.loginToAPI();
-      console.log("holaa", this.user);
       return true;
     } else if (DNI === "23456789") {
       this.isAuthenticated = true;
@@ -26,6 +25,7 @@ const authService = {
         rol: "deposito",
         depositId: 1
       };
+      this.loginToAPI();
       return true;
     } else {
       return false;

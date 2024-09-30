@@ -32,13 +32,18 @@ const Form = () => {
     if (authService.getUser()) setUser(authService.getUser());
     else navigate("/login");
 
-/*     // id = caseId
+    const getMaterials = async () => {
+      let res = await depositoService.getRouteMaterials(id);
+      res = res.map(el => { return { id: el.material_id, quantity: el.material_amount, name: materialTypes.filter(mt => mt.id == el.material_id)[0].name }});
+      setMaterials(res);
+    }
+
     if (id) {
-      //let ruta = depositoService.getRouteByCaseId(id);
-      //setMaterials(JSON.parse(ruta).materials);      // depositoService.searchRoutes(id)
-      setMaterials(JSON.parse(localStorage.getItem("recorrido")).materials);
-    } */
+      console.log("Iniciando sesión como DEPÓSITO");
+      getMaterials();
+    }
   }, []);
+
 
   const handleAddMaterial = () => {
     setEditingIndex(null);
@@ -53,17 +58,18 @@ const Form = () => {
         // editar material existente
         const updatedMaterials = materials.map((material, index) =>
           index === editingIndex
-            ? { name: materialType, quantity: materialQuantity }
-            : material
-        );
+        ? { id: materials[index].id, name: materialType, quantity: materialQuantity }
+        : material
+      );
         setMaterials(updatedMaterials);
       } else {
         // agregar nuevo material
         setMaterials([
           ...materials,
-          { name: materialType, quantity: +materialQuantity },
+          { id: +materialType, name: materialType, quantity: +materialQuantity },
         ]);
       }
+
       setMaterialType("");
       setMaterialQuantity("");
       setShowModal(false);
@@ -77,11 +83,11 @@ const Form = () => {
   };
 
   const handleSaveRoute = async () => {
-
+    console.log(materials);
     let recorrido = {
       "materials": materials.map((el) => { 
         return {
-          "material_id": +el.name,
+          "material_id": +el.id,
           "material_amount": +el.quantity
         }
       }),
@@ -97,6 +103,7 @@ const Form = () => {
   };
 
   const handleEditMaterial = (index) => {
+    console.log(materials[index]);
     setEditingIndex(index);
     setMaterialType(materials[index].name);
     setMaterialQuantity(materials[index].quantity);
@@ -113,7 +120,7 @@ const Form = () => {
 
   const handleSave = () => {
     setEnded(true);
-    //depositoService.confirmRoute(id, materials, depositId)
+    depositoService.confirmRoute(id, materials);
     navigate("/solicitudes");
   };
 
@@ -309,9 +316,9 @@ const Form = () => {
             <div className="bg-white p-6 rounded-lg shadow-lg sm:w-50 md:w-1/3">
               <h2 className="text-2xl mb-4">Confirmar recorrido</h2>
               <div className="mb-4">
-                Estas a punto de confirmar los siguientes datos:
+                Estás a punto de confirmar los siguientes datos:
                 {materials.length > 0 &&
-                  materials.map((material) => <li>{material.name}</li>)}
+                  materials.map((material) => <li>{material.name}: {material.quantity} kg</li>)}
               </div>
               <div className="flex justify-end">
                 <button

@@ -17,7 +17,7 @@ const Solicitudes = () => {
   }, []);
 
   const handleStart = () => {
-    navigate(`/form/${recorrido["id"]}`);
+    navigate(`/form/${recorrido["caseId"]}`);
   };
 
   const handleCancel = (index) => {

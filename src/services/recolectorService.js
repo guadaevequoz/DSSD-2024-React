@@ -1,7 +1,7 @@
 import axios from "axios";
 import authService from "./authService";
 const url = `http://localhost:15922/bonita/API`;
-const processId = "7093799715754021597";
+const processId = "5691512096063948652";
 
 /**
  * Subir el form de la ruta
@@ -14,8 +14,7 @@ const saveRoute = async (userId, materials) => {
     const response = await axios.post(
       url + `/bpm/process/${processId}/instantiation`,
       {
-        "name": "ujuju",
-        //"user_id": authService.getUser().id, --> falta actualizar BD
+        "user_id": authService.getUser().id,
         "materials": materials,
       },
       {
