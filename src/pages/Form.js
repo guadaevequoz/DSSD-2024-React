@@ -23,9 +23,9 @@ const Form = () => {
   const materialTypes = [
     { id: 1, name: "Cartón" },
     { id: 2, name: "Vidrio" },
-    { id: 3, name: "Madera"},
+    { id: 3, name: "Madera" },
     { id: 4, name: "Papel" },
-    { id: 5, name: "Tela" }
+    { id: 5, name: "Tela" },
   ];
 
   useEffect(() => {
@@ -34,16 +34,21 @@ const Form = () => {
 
     const getMaterials = async () => {
       let res = await depositoService.getRouteMaterials(id);
-      res = res.map(el => { return { id: el.material_id, quantity: el.material_amount, name: materialTypes.filter(mt => mt.id == el.material_id)[0].name }});
+      res = res.map((el) => {
+        return {
+          id: el.material_id,
+          quantity: el.material_amount,
+          name: materialTypes.filter((mt) => mt.id == el.material_id)[0].name,
+        };
+      });
       setMaterials(res);
-    }
+    };
 
     if (id) {
       console.log("Iniciando sesión como DEPÓSITO");
       getMaterials();
     }
   }, []);
-
 
   const handleAddMaterial = () => {
     setEditingIndex(null);
@@ -58,15 +63,23 @@ const Form = () => {
         // editar material existente
         const updatedMaterials = materials.map((material, index) =>
           index === editingIndex
-        ? { id: materials[index].id, name: materialType, quantity: materialQuantity }
-        : material
-      );
+            ? {
+                id: materials[index].id,
+                name: materialType,
+                quantity: materialQuantity,
+              }
+            : material
+        );
         setMaterials(updatedMaterials);
       } else {
         // agregar nuevo material
         setMaterials([
           ...materials,
-          { id: +materialType, name: materialType, quantity: +materialQuantity },
+          {
+            id: +materialType,
+            name: materialType,
+            quantity: +materialQuantity,
+          },
         ]);
       }
 
@@ -85,15 +98,18 @@ const Form = () => {
   const handleSaveRoute = async () => {
     console.log(materials);
     let recorrido = {
-      "materials": materials.map((el) => { 
+      materials: materials.map((el) => {
         return {
-          "material_id": +el.id,
-          "material_amount": +el.quantity
-        }
+          material_id: +el.id,
+          material_amount: +el.quantity,
+        };
       }),
     };
 
-    const res = await recolectorService.saveRoute(user.id, recorrido["materials"]);
+    const res = await recolectorService.saveRoute(
+      user.id,
+      recorrido["materials"]
+    );
     setResponse(res);
     setSaved(true);
   };
@@ -128,6 +144,10 @@ const Form = () => {
     setShowModalEnd(false);
   };
 
+  const getNombre = (name) => {
+    return materialTypes.find((e) => e.id === +name).name;
+  };
+
   return (
     <>
       <Navbar user={user} />
@@ -148,10 +168,12 @@ const Form = () => {
           )}
         </div>
 
-        {(saved && response) && (
+        {saved && response && (
           <div className="mb-6">
             <div className="flex items-center justify-between p-4 mb-2 border rounded-lg bg-green-100 shadow-sm text-green-800">
-              Se ha cargado tu recorrido con el número #{response["caseId"]}! Dirígete al depósito con el número indicado para que la orden sea recibida.
+              Se ha cargado tu recorrido con el número #{response["caseId"]}!
+              Dirígete al depósito con el número indicado para que la orden sea
+              recibida.
             </div>
           </div>
         )}
@@ -169,11 +191,11 @@ const Form = () => {
                       {/* icono circular q agrego joaco pero no sé para que es */}
                       <div className="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center mr-4">
                         <span className="text-green-700 font-bold">
-                          {material.name.charAt(0).toUpperCase()}
+                          {getNombre(material.id).charAt(0).toUpperCase()}
                         </span>
                       </div>
                       <div>
-                        <p className="font-bold">{material.name}</p>
+                        <p className="font-bold">{getNombre(material.id)}</p>
                         <p className="text-sm text-gray-600">
                           {material.quantity} kg
                         </p>
@@ -270,7 +292,7 @@ const Form = () => {
                 <label className="block mb-2 text-sm font-bold">Tipo</label>
                 <select
                   className="w-full p-2 border border-gray-300 rounded-lg"
-                  value=""
+                  value={materialTypes.find((m) => m.id === materialType)}
                   onChange={(e) => setMaterialType(e.target.value)}
                 >
                   <option value={materialType}>Selecciona un tipo</option>
@@ -318,7 +340,11 @@ const Form = () => {
               <div className="mb-4">
                 Estás a punto de confirmar los siguientes datos:
                 {materials.length > 0 &&
-                  materials.map((material) => <li>{material.name}: {material.quantity} kg</li>)}
+                  materials.map((material) => (
+                    <li>
+                      {material.name}: {material.quantity} kg
+                    </li>
+                  ))}
               </div>
               <div className="flex justify-end">
                 <button
