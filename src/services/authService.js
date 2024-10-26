@@ -1,70 +1,76 @@
 import axios from "axios";
 
-const url = `http://localhost:15922/bonita`;
+//const url = `http://localhost:15922/bonita`;
+const urlBonita = `http://13.58.229.86:8080/`;
+const urlAPI = `http://13.58.229.86:3000/api`;
+
 let apiToken;
 
 const authService = {
   isAuthenticated: false,
   user: undefined,
 
-  login(DNI, password) {
-    // llamada a la api
-    if (DNI === "12345678") {
-      this.isAuthenticated = true;
-      this.user = {
-        id: 1,
-        DNI: "12345678",
-        rol: "recolector",
-      };
-      this.loginToAPI();
-      return true;
-    } else if (DNI === "23456789") {
-      this.isAuthenticated = true;
-      this.user = {
-        DNI: "23456789",
-        rol: "deposito",
-        depositId: 1
-      };
-      this.loginToAPI();
-      return true;
-    } else {
+  login: async (username, password) => {
+    try {
+      const response = await axios.post(urlAPI + `/users/login`, {
+        username: username,
+        password: password,
+      });
+
+      return response.data.data.user;
+    } catch (error) {
+      console.error("Error al hacer la solicitud:", error);
       return false;
     }
   },
 
-  logout() {
-    this.isAuthenticated = false;
-    this.user = undefined;
-    //localStorage.clear();
+  logout: async () => {
+    try {
+      const response = await axios.get(urlAPI + `/users/logout`, {
+        withCredentials: true,
+      });
+      console.log(response);
+      return true;
+    } catch (error) {
+      console.error("Error al hacer la solicitud:", error);
+      return false;
+    }
   },
 
   isLoggedIn() {
     return this.isAuthenticated;
   },
 
+  setUser(user) {
+    this.user = user;
+    this.isAuthenticated = true;
+  },
+
   getUser() {
     return this.user;
+  },
+
+  deleteCredentials() {
+    this.user = undefined;
+    this.isAuthenticated = false;
   },
 
   loginToAPI: async () => {
     try {
       const params = new URLSearchParams();
-      
+
       params.append("username", "walter.bates");
       params.append("password", "bpm");
 
-      const response = await axios.post(
-        url + `/loginservice`, params,
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded"
-          },
-          withCredentials: true
+      const response = await axios.post(urlBonita + `/loginservice`, params, {
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
         },
-      );
+        withCredentials: true,
+      });
       apiToken = document.cookie
         .split(" ")
-        .find(el => el.startsWith("X-Bonita-API-Token"))
+        .find((el) => el.startsWith("X-Bonita-API-Token"))
         .split("=")[1];
 
       return response.data;
@@ -75,7 +81,7 @@ const authService = {
 
   getToken: () => {
     return apiToken;
-  }
+  },
 };
 
 export default authService;

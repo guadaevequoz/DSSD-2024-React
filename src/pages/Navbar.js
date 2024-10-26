@@ -7,8 +7,13 @@ import { Link } from "react-router-dom";
 export default function Navbar({ user }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = () => {
-    authService.logout();
+  const handleLogout = async () => {
+    const response = await authService.logout();
+    if (response) {
+      authService.deleteCredentials();
+    } else {
+      alert("Ocurrió un error");
+    }
   };
 
   return (
@@ -78,24 +83,17 @@ export default function Navbar({ user }) {
                     <li className="list-none">
                       <Link
                         to="/"
-                        className="text-white hover:text-gray-400 md:text-lg">
-                          Mis recorridos
+                        className="text-white hover:text-gray-400 md:text-lg"
+                      >
+                        Mis recorridos
                       </Link>
                     </li>
                     <li className="list-none">
                       <Link
                         to="/"
-                        className="text-white hover:text-gray-400 md:text-lg">
-                          Notificaciones
-                        </Link>
-                    </li>
-                    <li className="list-none">
-                      <Link
-                        to="/login"
                         className="text-white hover:text-gray-400 md:text-lg"
-                        onClick={handleLogout}
                       >
-                        Salir
+                        Notificaciones
                       </Link>
                     </li>
                   </>
@@ -111,16 +109,18 @@ export default function Navbar({ user }) {
                         Recibir entregas
                       </Link>
                     </li>
-                    <li className="list-none">
-                      <Link
-                        to="/login"
-                        className="text-white hover:text-gray-400 md:text-lg"
-                        onClick={handleLogout}
-                      >
-                        Salir
-                      </Link>
-                    </li>
                   </>
+                )}
+                {user && (
+                  <li className="list-none">
+                    <Link
+                      to="/login"
+                      className="text-white hover:text-gray-400 md:text-lg"
+                      onClick={handleLogout}
+                    >
+                      Salir
+                    </Link>
+                  </li>
                 )}
               </div>
             </div>
@@ -225,36 +225,38 @@ export default function Navbar({ user }) {
             {user.rol === "recolector" && (
               <>
                 <li className="list-none text-end">
-                      <Link
-                        to="/form"
-                        className="text-white hover:text-gray-400 md:text-lg"
-                      >
-                        Nuevo recorrido
-                      </Link>
-                    </li>
-                    <li className="list-none text-end">
-                      <Link
-                        to="/"
-                        className="text-white hover:text-gray-400 md:text-lg">
-                          Mis recorridos
-                      </Link>
-                    </li>
-                    <li className="list-none text-end">
-                      <Link
-                        to="/"
-                        className="text-white hover:text-gray-400 md:text-lg">
-                          Notificaciones
-                        </Link>
-                    </li>
-                    <li className="list-none text-end">
-                      <Link
-                        to="/login"
-                        className="text-white hover:text-gray-400 md:text-lg"
-                        onClick={handleLogout}
-                      >
-                        Salir
-                      </Link>
-                    </li>
+                  <Link
+                    to="/form"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                  >
+                    Nuevo recorrido
+                  </Link>
+                </li>
+                <li className="list-none text-end">
+                  <Link
+                    to="/"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                  >
+                    Mis recorridos
+                  </Link>
+                </li>
+                <li className="list-none text-end">
+                  <Link
+                    to="/"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                  >
+                    Notificaciones
+                  </Link>
+                </li>
+                <li className="list-none text-end">
+                  <Link
+                    to="/login"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                    onClick={handleLogout}
+                  >
+                    Salir
+                  </Link>
+                </li>
               </>
             )}
 

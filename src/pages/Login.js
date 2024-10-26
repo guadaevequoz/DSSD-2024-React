@@ -4,24 +4,18 @@ import authService from "../services/authService";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [DNI, setDNI] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = authService.login(DNI, password);
-    if (success) {
+    console.log(user, password);
+    const response = await authService.login(user, password);
+    if (response) {
+      authService.setUser(response);
       navigate("/");
-      //authService.loginToAPI();
     } else {
-      alert("DNI o contraseña incorrectos");
-    }
-  };
-
-  const handleDNIChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setDNI(value);
+      alert("Username o contraseña incorrectos");
     }
   };
 
@@ -31,18 +25,19 @@ const Login = () => {
         <h2 className="text-2xl font-bold text-center mb-6">Inicia sesión</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="DNI" className="block text-gray-700 font-bold mb-2">
-              DNI
+            <label
+              htmlFor="user"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Username
             </label>
             <input
               type="text"
-              id="DNI"
-              value={DNI}
-              onChange={handleDNIChange}
+              id="user"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              maxLength={8}
-              pattern="\d{1,8}" // Solo permite entre 1 y 8 dígitos
-              title="Solo se permiten números de hasta 8 dígitos"
+              title="Ingrese su usuario"
               required
             />
           </div>
