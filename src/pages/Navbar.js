@@ -117,6 +117,14 @@ export default function Navbar({ user }) {
                         Órdenes
                       </Link>
                     </li>
+                    <li className="list-none">
+                      <Link
+                        to="/mis-ordenes"
+                        className="text-white hover:text-gray-400 md:text-lg"
+                      >
+                        Mis Órdenes
+                      </Link>
+                    </li>
                   </>
                 )}
                 {user && (
@@ -284,6 +292,14 @@ export default function Navbar({ user }) {
                     className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Órdenes
+                  </Link>
+                </li>
+                <li className="list-none">
+                  <Link
+                    to="/mis-ordenes"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                  >
+                    Mis Órdenes
                   </Link>
                 </li>
                 <li className="list-none">

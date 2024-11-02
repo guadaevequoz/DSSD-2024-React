@@ -143,6 +143,20 @@ const getOrders = async () => {
   }
 };
 
+const getOrderById = async (id) => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    const response = await axios.get(urlAPI + `/orders/${id}`);
+    console.log(response.data.data.order);
+    return response.data.data.order;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
 export const depositoService = {
   confirmRoute,
   getRouteByRecolectorDNI,
@@ -150,4 +164,5 @@ export const depositoService = {
   getRouteByCaseId,
   getRouteMaterials,
   getOrders,
+  getOrderById,
 };

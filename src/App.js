@@ -4,6 +4,7 @@ import Form from "./pages/Form";
 import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import Ordenes from "./pages/Ordenes";
+import MisOrdenes from "./pages/MisOrdenes";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/solicitudes" element={<Solicitudes />} />
         <Route path="/ordenes" element={<Ordenes />} />
+        <Route path="/mis-ordenes" element={<MisOrdenes />} />
       </Routes>
     </Router>
   );
