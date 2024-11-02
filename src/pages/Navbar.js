@@ -70,7 +70,7 @@ export default function Navbar({ user }) {
                   </>
                 )}
 
-                {user.rol === "recolector" && (
+                {user.role === "recolector" && (
                   <>
                     <li className="list-none">
                       <Link
@@ -99,7 +99,7 @@ export default function Navbar({ user }) {
                   </>
                 )}
 
-                {user.rol === "deposito" && (
+                {user.role === "deposito" && (
                   <>
                     <li className="list-none">
                       <Link
@@ -222,7 +222,7 @@ export default function Navbar({ user }) {
               </>
             )}
 
-            {user.rol === "recolector" && (
+            {user.role === "recolector" && (
               <>
                 <li className="list-none text-end">
                   <Link
@@ -260,7 +260,7 @@ export default function Navbar({ user }) {
               </>
             )}
 
-            {user.rol === "deposito" && (
+            {user.role === "deposito" && (
               <>
                 <li className="list-none">
                   <Link

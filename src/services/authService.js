@@ -1,10 +1,18 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 //const url = `http://localhost:15922/bonita`;
 const urlBonita = `http://13.58.229.86:8080/`;
 const urlAPI = `http://13.58.229.86:3000/api`;
 
 let apiToken;
+let jwt;
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
 
 const authService = {
   isAuthenticated: false,
@@ -16,6 +24,11 @@ const authService = {
         username: username,
         password: password,
       });
+      jwt = response.data.token;
+      console.log(jwt);
+      axios.defaults.headers.common = {
+        Authorization: `Bearer ${jwt && true}`,
+      };
 
       return response.data.data.user;
     } catch (error) {
@@ -24,12 +37,22 @@ const authService = {
     }
   },
 
+  getToken: () => {
+    return apiToken;
+  },
+
+  getJWT: () => {
+    return jwt;
+  },
+
   logout: async () => {
     try {
-      const response = await axios.get(urlAPI + `/users/logout`, {
-        withCredentials: true,
-      });
+      axios.defaults.headers.common = {
+        Authorization: `Bearer ${jwt}`,
+      };
+      const response = await axios.get(urlAPI + `/users/logout`);
       console.log(response);
+
       return true;
     } catch (error) {
       console.error("Error al hacer la solicitud:", error);
@@ -77,10 +100,6 @@ const authService = {
     } catch (error) {
       console.error("Error al hacer la solicitud:", error);
     }
-  },
-
-  getToken: () => {
-    return apiToken;
   },
 };
 

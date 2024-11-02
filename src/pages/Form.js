@@ -20,13 +20,7 @@ const Form = () => {
   const [response, setResponse] = useState(null);
 
   // esto se deberia ir a buscar a la api supongo
-  const materialTypes = [
-    { id: 1, name: "Cartón" },
-    { id: 2, name: "Vidrio" },
-    { id: 3, name: "Madera" },
-    { id: 4, name: "Papel" },
-    { id: 5, name: "Tela" },
-  ];
+  let materialTypes = [];
 
   useEffect(() => {
     if (authService.getUser()) setUser(authService.getUser());
@@ -48,6 +42,13 @@ const Form = () => {
       console.log("Iniciando sesión como DEPÓSITO");
       getMaterials();
     }
+
+    const getMaterialTypes = async () => {
+      let res = await recolectorService.getMaterials();
+      console.log(res);
+      materialTypes = res;
+    };
+    getMaterialTypes();
   }, []);
 
   const handleAddMaterial = () => {

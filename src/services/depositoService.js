@@ -2,6 +2,11 @@ import axios from "axios";
 import authService from "./authService";
 
 const url = `http://localhost:15922/bonita/API`;
+const urlAPI = `http://13.58.229.86:3000/api`;
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common = {
+  Authorization: `Bearer ${authService.getJWT()}`,
+};
 
 /**
  * Valida la ruta en un deposito
@@ -12,39 +17,38 @@ const url = `http://localhost:15922/bonita/API`;
  */
 const confirmRoute = async (caseId, materials) => {
   try {
-
     const route = await getRouteByCaseId(caseId);
 
     console.log(materials);
-    
+
     const response = await axios.put(
       url + `/bpm/humanTask/${route[0].id}`,
       {
-        "assigned_id": 4,
-        "state": "completed",
-        "variables": [
+        assigned_id: 4,
+        state: "completed",
+        variables: [
           {
-            "name": "materialesDeposito",
-            "value": materials.map((el) => { 
+            name: "materialesDeposito",
+            value: materials.map((el) => {
               return {
-                "material_id": +el.id,
-                "material_amount": +el.quantity
-              }
-            })
+                material_id: +el.id,
+                material_amount: +el.quantity,
+              };
+            }),
           },
-          { 
-            "name": "depositoId",
-            "value": authService.getUser().depositId
-          }
-        ]
+          {
+            name: "depositoId",
+            value: authService.getUser().depositId,
+          },
+        ],
       },
       {
         headers: {
           "Content-Type": "application/json",
           "X-Bonita-API-Token": authService.getToken(),
         },
-        withCredentials: true
-      },
+        withCredentials: true,
+      }
     );
     return response.data;
   } catch (error) {
@@ -65,7 +69,7 @@ const getRouteByCaseId = async (id) => {
         "Content-type": "application/x-www-form-urlencoded",
         "X-Bonita-API-Token": authService.getToken(),
       },
-      withCredentials: true
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -92,15 +96,18 @@ const getRouteByRecolectorDNI = async (dni) => {
 
 const getRouteMaterials = async (caseId) => {
   try {
-    const response = await axios.get(url + `/bpm/caseVariable/${caseId}/materialesRecolector`, {
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/x-www-form-urlencoded",
-        "X-Bonita-API-Token": authService.getToken(),
-      },
-      withCredentials: true
-    });
-    
+    const response = await axios.get(
+      url + `/bpm/caseVariable/${caseId}/materialesRecolector`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/x-www-form-urlencoded",
+          "X-Bonita-API-Token": authService.getToken(),
+        },
+        withCredentials: true,
+      }
+    );
+
     let data = response.data.value.replace(/=/g, ":");
     data = data.replace(/(\w+):/g, '"$1":');
 
@@ -108,7 +115,7 @@ const getRouteMaterials = async (caseId) => {
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);
   }
-}
+};
 
 const searchRoutes = async (id) => {
   try {
@@ -125,10 +132,22 @@ const searchRoutes = async (id) => {
   }
 };
 
+const getOrders = async () => {
+  try {
+    const response = await axios.get(urlAPI + `/orders`);
+
+    return response.data.data.orders;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
 export const depositoService = {
   confirmRoute,
   getRouteByRecolectorDNI,
   searchRoutes,
   getRouteByCaseId,
-  getRouteMaterials
+  getRouteMaterials,
+  getOrders,
 };
