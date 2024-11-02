@@ -38,8 +38,10 @@ const saveRoute = async (userId, materials) => {
 
 const getMaterials = async () => {
   try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
     const response = await axios.get(urlAPI + `/materials`);
-
     return response.data.data.materials;
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);

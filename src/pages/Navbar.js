@@ -99,7 +99,7 @@ export default function Navbar({ user }) {
                   </>
                 )}
 
-                {user.role === "deposito" && (
+                {user.role === "depósito" && (
                   <>
                     <li className="list-none">
                       <Link
@@ -107,6 +107,14 @@ export default function Navbar({ user }) {
                         className="text-white hover:text-gray-400 md:text-lg"
                       >
                         Recibir entregas
+                      </Link>
+                    </li>
+                    <li className="list-none">
+                      <Link
+                        to="/ordenes"
+                        className="text-white hover:text-gray-400 md:text-lg"
+                      >
+                        Órdenes
                       </Link>
                     </li>
                   </>
@@ -260,7 +268,7 @@ export default function Navbar({ user }) {
               </>
             )}
 
-            {user.role === "deposito" && (
+            {user.role === "depósito" && (
               <>
                 <li className="list-none">
                   <Link
@@ -268,6 +276,14 @@ export default function Navbar({ user }) {
                     className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Recibir entregas
+                  </Link>
+                </li>
+                <li className="list-none">
+                  <Link
+                    to="/ordenes"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                  >
+                    Órdenes
                   </Link>
                 </li>
                 <li className="list-none">

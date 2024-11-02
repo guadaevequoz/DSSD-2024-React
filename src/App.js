@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Form from "./pages/Form";
 import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
+import Ordenes from "./pages/Ordenes";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/form/:id?" element={<Form />} />
         <Route path="/login" element={<Login />} />
         <Route path="/solicitudes" element={<Solicitudes />} />
+        <Route path="/ordenes" element={<Ordenes />} />
       </Routes>
     </Router>
   );

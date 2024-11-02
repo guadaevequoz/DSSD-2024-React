@@ -4,9 +4,6 @@ import authService from "./authService";
 const url = `http://localhost:15922/bonita/API`;
 const urlAPI = `http://13.58.229.86:3000/api`;
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common = {
-  Authorization: `Bearer ${authService.getJWT()}`,
-};
 
 /**
  * Valida la ruta en un deposito
@@ -134,6 +131,9 @@ const searchRoutes = async (id) => {
 
 const getOrders = async () => {
   try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
     const response = await axios.get(urlAPI + `/orders`);
 
     return response.data.data.orders;
