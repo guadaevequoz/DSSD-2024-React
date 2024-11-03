@@ -82,7 +82,7 @@ export default function Navbar({ user }) {
                     </li>
                     <li className="list-none">
                       <Link
-                        to="/"
+                        to="/mis-recorridos"
                         className="text-white hover:text-gray-400 md:text-lg"
                       >
                         Mis recorridos
@@ -258,7 +258,7 @@ export default function Navbar({ user }) {
                 </li>
                 <li className="list-none text-end">
                   <Link
-                    to="/"
+                    to="/mis-recorridos"
                     className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Mis recorridos

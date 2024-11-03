@@ -10,19 +10,18 @@ const Deposito = () => {
   const [deposito, setDeposito] = useState();
 
   useEffect(() => {
-    let userRes = authService.getUser();
+    if (authService.getUser()) {
+      setUser(authService.getUser());
+    } else navigate("/login");
+
     const getDeposito = async () => {
-      let res = await depositoService.getDepositById(user.depositId);
+      let res = await depositoService.getDepositById(
+        authService.getUser().depositId
+      );
       if (res) setDeposito(res);
     };
 
-    if (userRes) {
-      setUser(userRes);
-      if (user) {
-        getDeposito();
-        console.log(user);
-      }
-    } else navigate("/login");
+    getDeposito();
   }, []);
 
   return (
