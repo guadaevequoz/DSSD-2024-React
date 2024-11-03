@@ -6,6 +6,7 @@ import Solicitudes from "./pages/Solicitudes";
 import Ordenes from "./pages/Ordenes";
 import MisOrdenes from "./pages/MisOrdenes";
 import Deposito from "./pages/Deposito";
+import MisRecorridos from "./pages/MisRecorridos";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/ordenes" element={<Ordenes />} />
         <Route path="/mis-ordenes" element={<MisOrdenes />} />
         <Route path="/deposito" element={<Deposito />} />
+        <Route path="/mis-recorridos" element={<MisRecorridos />} />
       </Routes>
     </Router>
   );

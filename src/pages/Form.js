@@ -18,6 +18,7 @@ const Form = () => {
   const [saved, setSaved] = useState(false);
   const [ended, setEnded] = useState(false);
   const [response, setResponse] = useState(null);
+  const [pending, setPending] = useState(false);
 
   // esto se deberia ir a buscar a la api supongo
   let materialTypes = [];
@@ -37,17 +38,22 @@ const Form = () => {
       });
       setMaterials(res);
     };
-
-    if (id) {
-      console.log("Iniciando sesión como DEPÓSITO");
-      getMaterials();
-    }
-
     const getMaterialTypes = async () => {
       let res = await recolectorService.getMaterials();
       console.log(res);
-      materialTypes = res;
+      materialTypes = [...res];
     };
+    const getPending = async () => {
+      let res = await recolectorService.currentUserHasPending();
+      setPending(res);
+    };
+
+    if (id) {
+      getMaterials();
+    } else {
+      getPending();
+    }
+
     getMaterialTypes();
   }, []);
 
@@ -157,17 +163,24 @@ const Form = () => {
           {id ? "Confirmar entrega" : "Nuevo recorrido"}
         </h1>
         <hr className="mb-4" />
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-lg font-bold">Materiales</span>
-          {!id && (
-            <button
-              className="w-10 h-10 rounded-full bg-teal-700 text-white flex items-center justify-center shadow-lg hover:bg-green-600"
-              onClick={handleAddMaterial}
-            >
-              +
-            </button>
-          )}
-        </div>
+        {!pending ? (
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-lg font-bold">Materiales</span>
+            {!id && (
+              <button
+                className="w-10 h-10 rounded-full bg-teal-700 text-white flex items-center justify-center shadow-lg hover:bg-green-600"
+                onClick={handleAddMaterial}
+              >
+                +
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="p-4 rounded bg-red-100 text-red-600 text-center w-full ">
+            Tenes una orden en proceso. Recuerda que hasta que no la completes
+            no podes iniciar una nueva.
+          </div>
+        )}
 
         {saved && response && (
           <div className="mb-6">
@@ -179,10 +192,10 @@ const Form = () => {
           </div>
         )}
         {/* Lista de materiales */}
-        {!saved && (
+        {!saved && !pending && (
           <>
             <div className="mb-6">
-              {materials.length > 0 ? (
+              {materials.length > 0 && !pending ? (
                 materials.map((material, index) => (
                   <div
                     key={index}

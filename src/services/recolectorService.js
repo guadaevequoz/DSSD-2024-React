@@ -49,4 +49,37 @@ const getMaterials = async () => {
   }
 };
 
-export const recolectorService = { saveRoute, getMaterials };
+const getRequestsByCurrentUser = async () => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    const response = await axios.get(urlAPI + `/requests/me`);
+
+    return response.data.data;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
+const currentUserHasPending = async () => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    const response = await axios.get(urlAPI + `/requests/me/pending`);
+    console.log(response);
+    return response.data.data.hasPending;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
+export const recolectorService = {
+  saveRoute,
+  getMaterials,
+  getRequestsByCurrentUser,
+  currentUserHasPending,
+};
