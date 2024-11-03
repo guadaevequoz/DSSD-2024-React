@@ -157,6 +157,52 @@ const getOrderById = async (id) => {
   }
 };
 
+const getOrdersByDepositId = async (id) => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    const response = await axios.get(urlAPI + `/orders`);
+    console.log(response.data.data.order);
+    return response.data.data.order;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
+const assignOrder = async (orderId, depositId) => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    const response = await axios.put(urlAPI + `/orders/assign`, {
+      id: orderId,
+      depositId: depositId,
+    });
+    console.log(response.data.data.order);
+    return response.data;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
+const getDepositById = async (depositId) => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    console.log("ID DEL DEPOSITO", depositId);
+    const response = await axios.get(urlAPI + `/deposits/${depositId}`);
+
+    return response.data.data.deposit;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
 export const depositoService = {
   confirmRoute,
   getRouteByRecolectorDNI,
@@ -165,4 +211,7 @@ export const depositoService = {
   getRouteMaterials,
   getOrders,
   getOrderById,
+  getOrdersByDepositId,
+  assignOrder,
+  getDepositById,
 };

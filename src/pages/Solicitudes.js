@@ -34,7 +34,9 @@ const Solicitudes = () => {
         setRecorrido(res[0]);
       } else {
         setRecorrido(null);
-        setMensaje("No se encontró una entrega pendiente con ese número de orden");
+        setMensaje(
+          "No se encontró una entrega pendiente con ese número de orden"
+        );
       }
       setNroOrden("");
     } else {
@@ -44,7 +46,7 @@ const Solicitudes = () => {
 
   const handleInputChange = (e) => {
     const value = +e.target.value;
-    setNroOrden((curr) => isNaN(value) ? curr : value);
+    setNroOrden((curr) => (isNaN(value) ? curr : value));
   };
 
   return (
@@ -73,36 +75,43 @@ const Solicitudes = () => {
         </div>
       </div>
       {recorrido ? (
-              <div className="flex w-full">
-              <div className="flex flex-col mx-auto">
-                <p>Se encontró un recorrido pendiente con el número #{recorrido["caseId"]}, cargado el {new Date(recorrido["reached_state_date"]).toLocaleDateString("es")}.</p>
-                <div className="mx-auto my-4">
-                  <button
-                    className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
-                    onClick={handleStart}
-                  >
-                    Comenzar
-                  </button>
-                  <button
-                    className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
-                    onClick={handleCancel}
-                  >
-                    Cancelar
-                  </button>
-                </div>
-              </div>
+        <div className="flex w-full">
+          <div className="flex flex-col mx-auto">
+            <p>
+              Se encontró un recorrido pendiente con el número #
+              {recorrido["caseId"]}, cargado el{" "}
+              {new Date(recorrido["reached_state_date"]).toLocaleDateString(
+                "es"
+              )}
+              .
+            </p>
+            <div className="mx-auto my-4">
+              <button
+                className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
+                onClick={handleStart}
+              >
+                Comenzar
+              </button>
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </button>
             </div>
-      
+          </div>
+        </div>
       ) : mensaje ? (
         <div className="p-4 rounded bg-red-100 text-red-600 text-center">
           {mensaje}
         </div>
       ) : (
         <div className="p-4 rounded bg-gray-100 text-center w-full text-black/80">
-          Ingrese un número de orden en el buscador de arriba para iniciar la búsqueda.
+          Ingrese un número de orden en el buscador de arriba para iniciar la
+          búsqueda.
         </div>
       )}
-  </>
+    </>
   );
 };
 

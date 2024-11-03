@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import Ordenes from "./pages/Ordenes";
 import MisOrdenes from "./pages/MisOrdenes";
+import Deposito from "./pages/Deposito";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/solicitudes" element={<Solicitudes />} />
         <Route path="/ordenes" element={<Ordenes />} />
         <Route path="/mis-ordenes" element={<MisOrdenes />} />
+        <Route path="/deposito" element={<Deposito />} />
       </Routes>
     </Router>
   );

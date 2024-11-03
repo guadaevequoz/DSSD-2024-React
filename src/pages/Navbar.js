@@ -125,6 +125,14 @@ export default function Navbar({ user }) {
                         Mis Órdenes
                       </Link>
                     </li>
+                    <li className="list-none">
+                      <Link
+                        to="/deposito"
+                        className="text-white hover:text-gray-400 md:text-lg"
+                      >
+                        Mi depósito
+                      </Link>
+                    </li>
                   </>
                 )}
                 {user && (
@@ -300,6 +308,14 @@ export default function Navbar({ user }) {
                     className="text-white hover:text-gray-400 md:text-lg"
                   >
                     Mis Órdenes
+                  </Link>
+                </li>
+                <li className="list-none">
+                  <Link
+                    to="/deposito"
+                    className="text-white hover:text-gray-400 md:text-lg"
+                  >
+                    Mi depósito
                   </Link>
                 </li>
                 <li className="list-none">

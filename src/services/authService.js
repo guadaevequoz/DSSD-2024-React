@@ -8,12 +8,6 @@ const urlAPI = `http://13.58.229.86:3000/api`;
 let apiToken;
 let jwt;
 
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
-
 const authService = {
   isAuthenticated: false,
   user: undefined,
@@ -25,11 +19,6 @@ const authService = {
         password: password,
       });
       jwt = response.data.token;
-      console.log(jwt);
-      axios.defaults.headers.common = {
-        Authorization: `Bearer ${jwt && true}`,
-      };
-
       return response.data.data.user;
     } catch (error) {
       console.error("Error al hacer la solicitud:", error);
