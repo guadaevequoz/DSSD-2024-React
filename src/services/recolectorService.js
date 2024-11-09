@@ -57,7 +57,7 @@ const getRequestsByCurrentUser = async () => {
     };
     const response = await axios.get(urlAPI + `/requests/me`);
 
-    return response.data.data;
+    return response.data.data.requests;
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);
     return false;

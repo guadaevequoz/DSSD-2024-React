@@ -11,6 +11,7 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalEnd, setShowModalEnd] = useState(false);
   const [materialType, setMaterialType] = useState("");
+  const [materialTypes, setMaterialTypes] = useState([]);
   const [materialQuantity, setMaterialQuantity] = useState("");
   const [materials, setMaterials] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -21,7 +22,16 @@ const Form = () => {
   const [pending, setPending] = useState(false);
 
   // esto se deberia ir a buscar a la api supongo
-  let materialTypes = [];
+  //let materialTypes = [];
+  // const materialTypes = [
+  //   { id: 1, name: "Cartón" },
+  //   { id: 2, name: "Vidrio" },
+  //   { id: 3, name: "Madera"},
+  //   { id: 3, name: "Madera" },
+  //   { id: 4, name: "Papel" },
+  //   { id: 5, name: "Tela" }
+  //   { id: 5, name: "Tela" },
+  // ];
 
   useEffect(() => {
     if (authService.getUser()) setUser(authService.getUser());
@@ -41,7 +51,8 @@ const Form = () => {
     const getMaterialTypes = async () => {
       let res = await recolectorService.getMaterials();
       console.log(res);
-      materialTypes = [...res];
+      setMaterialTypes(res);
+      // materialTypes = [...res];
       console.log(materialTypes);
     };
     const getPending = async () => {
@@ -267,7 +278,7 @@ const Form = () => {
             </div>
             <div className="flex items-center mb-4">
               <div className="flex justify-end">
-                {user.rol === "recolector" && (
+                {user.role === "recolector" && (
                   <>
                     <button
                       className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
@@ -283,7 +294,7 @@ const Form = () => {
                     </button>
                   </>
                 )}
-                {user.rol === "deposito" && (
+                {user.role === "depósito" && (
                   <button
                     className="bg-teal-700 text-white px-4 py-2 rounded-lg mr-2 hover:bg-teal-600"
                     onClick={handleEnd}
@@ -303,6 +314,7 @@ const Form = () => {
               <h2 className="text-2xl mb-4">
                 {editingIndex !== null ? "Editar material" : "Agregar material"}
               </h2>
+              <p>{materialTypes.length}</p>
               <div className="mb-4">
                 <label className="block mb-2 text-sm font-bold">Tipo</label>
                 <select
@@ -311,7 +323,7 @@ const Form = () => {
                   onChange={(e) => setMaterialType(e.target.value)}
                 >
                   {materialTypes.map((type, index) => (
-                    <option key={index} value={type.id}>
+                    <option value={type.id} key={index}>
                       {type.name}
                     </option>
                   ))}
