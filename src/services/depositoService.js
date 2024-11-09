@@ -2,7 +2,8 @@ import axios from "axios";
 import authService from "./authService";
 
 const url = `http://localhost:15922/bonita/API`;
-const urlAPI = `http://13.58.229.86:3000/api`;
+//const urlAPI = `http://13.58.229.86:3000/api`;
+const urlAPI = `http://localhost:3000/api`;
 axios.defaults.withCredentials = true;
 
 /**
@@ -162,9 +163,9 @@ const getOrdersByDepositId = async (id) => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${authService.getJWT()}`,
     };
-    const response = await axios.get(urlAPI + `/orders`);
+    const response = await axios.get(urlAPI + `/orders/me`);
     console.log(response.data.data.order);
-    return response.data.data.order;
+    return response.data.data.orders;
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);
     return false;
@@ -180,6 +181,20 @@ const assignOrder = async (orderId, depositId) => {
       id: orderId,
       depositId: depositId,
     });
+    console.log(response.data.data.order);
+    return response.data;
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+    return false;
+  }
+};
+
+const sendOrder = async (orderId) => {
+  try {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${authService.getJWT()}`,
+    };
+    const response = await axios.put(urlAPI + `/orders/send/${orderId}`);
     console.log(response.data.data.order);
     return response.data;
   } catch (error) {
@@ -214,4 +229,5 @@ export const depositoService = {
   getOrdersByDepositId,
   assignOrder,
   getDepositById,
+  sendOrder,
 };

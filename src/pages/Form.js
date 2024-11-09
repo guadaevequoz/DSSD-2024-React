@@ -42,6 +42,7 @@ const Form = () => {
       let res = await recolectorService.getMaterials();
       console.log(res);
       materialTypes = [...res];
+      console.log(materialTypes);
     };
     const getPending = async () => {
       let res = await recolectorService.currentUserHasPending();
@@ -309,7 +310,6 @@ const Form = () => {
                   value={materialTypes.find((m) => m.id === materialType)}
                   onChange={(e) => setMaterialType(e.target.value)}
                 >
-                  <option value={materialType}>Selecciona un tipo</option>
                   {materialTypes.map((type, index) => (
                     <option key={index} value={type.id}>
                       {type.name}

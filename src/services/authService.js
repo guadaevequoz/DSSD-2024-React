@@ -3,7 +3,8 @@ axios.defaults.withCredentials = true;
 
 //const url = `http://localhost:15922/bonita`;
 const urlBonita = `http://13.58.229.86:8080/`;
-const urlAPI = `http://13.58.229.86:3000/api`;
+//const urlAPI = `http://13.58.229.86:3000/api`;
+const urlAPI = `http://localhost:3000/api`;
 
 let apiToken;
 let jwt;
