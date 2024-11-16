@@ -34,7 +34,8 @@ const MisOrdenes = () => {
 
   const handleSendOrder = async () => {
     let response = await depositoService.sendOrder(orden);
-    getOrdenes();
+    setTimeout(_ => getOrdenes(), 1000);
+    setShowModal(false);
   };
 
   const handleCloseModal = () => {

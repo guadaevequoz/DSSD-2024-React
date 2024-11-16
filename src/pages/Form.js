@@ -27,11 +27,15 @@ const Form = () => {
 
     const getMaterials = async () => {
       let res = await depositoService.getRouteMaterials(id);
+      const matTypes = await getMaterialTypes();
+
+      console.log(matTypes);
+
       res = res.map((el) => {
         return {
           id: el.material_id,
           quantity: el.material_amount,
-          name: materialTypes.filter((mt) => mt.id == el.material_id)[0].name,
+          name: matTypes.filter((mt) => mt.id == el.material_id)[0].name,
         };
       });
       setMaterials(res);
@@ -39,6 +43,7 @@ const Form = () => {
     const getMaterialTypes = async () => {
       let res = await recolectorService.getMaterials();
       setMaterialTypes(res);
+      return res;
     };
     const getPending = async () => {
       let res = await recolectorService.currentUserHasPending();

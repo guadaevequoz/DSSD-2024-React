@@ -2,7 +2,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const urlBonita = `${process.env.REACT_APP_BONITA_URL}`;
-const urlAPI = `${process.env.REACT_APP_API_URL}`;
+const urlAPI = `${process.env.REACT_APP_API_URL_LOCAL}`;
 
 let apiToken;
 let jwt;

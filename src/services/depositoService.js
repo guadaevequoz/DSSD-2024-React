@@ -2,7 +2,8 @@ import axios from "axios";
 import authService from "./authService";
 
 const url = `${process.env.REACT_APP_BONITA_URL}/API`;
-const urlAPI = `${process.env.REACT_APP_API_URL}`;
+const urlAPI = `${process.env.REACT_APP_API_URL_LOCAL}`;
+const urlCloud = `${process.env.REACT_APP_API_URL_CLOUD}`;
 axios.defaults.withCredentials = true;
 const processId = `${process.env.REACT_APP_PROCESO_DEPOSITO_ID}`;
 
@@ -133,7 +134,7 @@ const getOrders = async () => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${authService.getJWT()}`,
     };
-    const response = await axios.get(urlAPI + `/orders`);
+    const response = await axios.get(urlCloud + `/orders`);
 
     return response.data.data.orders;
   } catch (error) {
@@ -147,7 +148,7 @@ const getOrderById = async (id) => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${authService.getJWT()}`,
     };
-    const response = await axios.get(urlAPI + `/orders/${id}`);
+    const response = await axios.get(urlCloud + `/orders/${id}`);
     return response.data.data.order;
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);
@@ -160,7 +161,7 @@ const getOrdersByDepositId = async (id) => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${authService.getJWT()}`,
     };
-    const response = await axios.get(urlAPI + `/orders/me`);
+    const response = await axios.get(urlCloud + `/orders/me`);
     return response.data.data.orders;
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);
@@ -216,7 +217,7 @@ const getDepositById = async (depositId) => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${authService.getJWT()}`,
     };
-    const response = await axios.get(urlAPI + `/deposits/${depositId}`);
+    const response = await axios.get(urlCloud + `/deposits/${depositId}`);
 
     return response.data.data.deposit;
   } catch (error) {
