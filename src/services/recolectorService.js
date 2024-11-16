@@ -1,10 +1,11 @@
 import axios from "axios";
 import authService from "./authService";
 //const url = `http://localhost:15922/bonita/API`;
-const url = `http://13.58.229.86:8080/`;
+const url = `${process.env.REACT_APP_BONITA_URL}/API`;
 //const urlAPI = `http://13.58.229.86:3000/api`;
-const urlAPI = `http://localhost:3000/api`;
-const processId = "5691512096063948652";
+const urlAPI = `${process.env.REACT_APP_API_URL}`;
+const processId = process.env.REACT_APP_PROCESO_RECOLECTOR_ID;
+
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common = {
   Authorization: `Bearer ${authService.getJWT()}`,
@@ -70,7 +71,6 @@ const currentUserHasPending = async () => {
       Authorization: `Bearer ${authService.getJWT()}`,
     };
     const response = await axios.get(urlAPI + `/requests/me/pending`);
-    console.log(response);
     return response.data.data.hasPending;
   } catch (error) {
     console.error("Error al hacer la solicitud:", error);

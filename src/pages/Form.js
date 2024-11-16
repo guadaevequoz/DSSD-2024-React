@@ -21,18 +21,6 @@ const Form = () => {
   const [response, setResponse] = useState(null);
   const [pending, setPending] = useState(false);
 
-  // esto se deberia ir a buscar a la api supongo
-  //let materialTypes = [];
-  // const materialTypes = [
-  //   { id: 1, name: "Cartón" },
-  //   { id: 2, name: "Vidrio" },
-  //   { id: 3, name: "Madera"},
-  //   { id: 3, name: "Madera" },
-  //   { id: 4, name: "Papel" },
-  //   { id: 5, name: "Tela" }
-  //   { id: 5, name: "Tela" },
-  // ];
-
   useEffect(() => {
     if (authService.getUser()) setUser(authService.getUser());
     else navigate("/login");
@@ -50,10 +38,7 @@ const Form = () => {
     };
     const getMaterialTypes = async () => {
       let res = await recolectorService.getMaterials();
-      console.log(res);
       setMaterialTypes(res);
-      // materialTypes = [...res];
-      console.log(materialTypes);
     };
     const getPending = async () => {
       let res = await recolectorService.currentUserHasPending();
@@ -91,7 +76,6 @@ const Form = () => {
         );
         setMaterials(updatedMaterials);
       } else {
-        // agregar nuevo material
         setMaterials([
           ...materials,
           {
@@ -115,7 +99,6 @@ const Form = () => {
   };
 
   const handleSaveRoute = async () => {
-    console.log(materials);
     let recorrido = {
       materials: materials.map((el) => {
         return {
@@ -138,7 +121,6 @@ const Form = () => {
   };
 
   const handleEditMaterial = (index) => {
-    console.log(materials[index]);
     setEditingIndex(index);
     setMaterialType(materials[index].name);
     setMaterialQuantity(materials[index].quantity);
@@ -314,14 +296,14 @@ const Form = () => {
               <h2 className="text-2xl mb-4">
                 {editingIndex !== null ? "Editar material" : "Agregar material"}
               </h2>
-              <p>{materialTypes.length}</p>
               <div className="mb-4">
                 <label className="block mb-2 text-sm font-bold">Tipo</label>
                 <select
                   className="w-full p-2 border border-gray-300 rounded-lg"
                   value={materialTypes.find((m) => m.id === materialType)}
-                  onChange={(e) => setMaterialType(e.target.value)}
+                  onChange={(e) => { setMaterialType(e.target.value) }}
                 >
+                  <option value="">Seleccione una opción</option>
                   {materialTypes.map((type, index) => (
                     <option value={type.id} key={index}>
                       {type.name}

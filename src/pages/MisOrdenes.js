@@ -33,14 +33,7 @@ const MisOrdenes = () => {
   };
 
   const handleSendOrder = async () => {
-    let response = await depositoService.sendOrder(orden.id);
-    setStatus(response.status);
-    if (response.status) {
-      setMessage("La órden ha sido enviada a la red exitosamente.");
-    } else
-      setMessage(
-        "La órden no ha podido ser enviada, por favor intenta nuevamente."
-      );
+    let response = await depositoService.sendOrder(orden);
     getOrdenes();
   };
 

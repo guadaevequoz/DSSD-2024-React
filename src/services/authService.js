@@ -1,10 +1,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-//const url = `http://localhost:15922/bonita`;
-const urlBonita = `http://13.58.229.86:8080/`;
-//const urlAPI = `http://13.58.229.86:3000/api`;
-const urlAPI = `http://localhost:3000/api`;
+const urlBonita = `${process.env.REACT_APP_BONITA_URL}`;
+const urlAPI = `${process.env.REACT_APP_API_URL}`;
 
 let apiToken;
 let jwt;
@@ -13,13 +11,40 @@ const authService = {
   isAuthenticated: false,
   user: undefined,
 
-  login: async (username, password) => {
+  loginToAPI: async function() {
+    try {
+      const params = new URLSearchParams();
+
+      params.append("username", "walter.bates");
+      params.append("password", "bpm");
+
+      const response = await axios.post(urlBonita + `/loginservice`, params, {
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+        },
+        withCredentials: true,
+      });
+      apiToken = document.cookie
+        .split(" ")
+        .find((el) => el.startsWith("X-Bonita-API-Token"))
+        .split("=")[1];
+
+      return response.data;
+    } catch (error) {
+      console.error("Error al hacer la solicitud:", error);
+    }
+  },
+
+  login: async function(username, password) {
     try {
       const response = await axios.post(urlAPI + `/users/login`, {
         username: username,
         password: password,
       });
+
       jwt = response.data.token;
+      this.loginToAPI();
+
       return response.data.data.user;
     } catch (error) {
       console.error("Error al hacer la solicitud:", error);
@@ -41,7 +66,6 @@ const authService = {
         Authorization: `Bearer ${jwt}`,
       };
       const response = await axios.get(urlAPI + `/users/logout`);
-      console.log(response);
 
       return true;
     } catch (error) {
@@ -68,29 +92,6 @@ const authService = {
     this.isAuthenticated = false;
   },
 
-  loginToAPI: async () => {
-    try {
-      const params = new URLSearchParams();
-
-      params.append("username", "walter.bates");
-      params.append("password", "bpm");
-
-      const response = await axios.post(urlBonita + `/loginservice`, params, {
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-        },
-        withCredentials: true,
-      });
-      apiToken = document.cookie
-        .split(" ")
-        .find((el) => el.startsWith("X-Bonita-API-Token"))
-        .split("=")[1];
-
-      return response.data;
-    } catch (error) {
-      console.error("Error al hacer la solicitud:", error);
-    }
-  },
 };
 
 export default authService;

@@ -9,7 +9,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user, password);
     const response = await authService.login(user, password);
     if (response) {
       authService.setUser(response);

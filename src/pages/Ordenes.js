@@ -34,15 +34,11 @@ const Ordenes = () => {
 
   const handleTakeOrder = async () => {
     let response = await depositoService.assignOrder(orden.id, user.depositId);
-    console.log(response);
-    setStatus(response.status);
-    if (response.status) {
-      setMessage("Te has asignado la órden exitosamente.");
-    } else
-      setMessage(
-        "La órden no ha podido ser asignada, por favor intenta nuevamente."
-      );
-    getOrdenes();
+
+    handleCloseModal();
+    setTimeout(() => {
+      getOrdenes();
+    }, 500);
   };
 
   const handleCloseModal = () => {

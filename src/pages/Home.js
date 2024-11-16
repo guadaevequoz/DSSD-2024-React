@@ -8,7 +8,6 @@ const Home = () => {
   const [user, setUser] = useState("");
 
   useEffect(() => {
-    console.log(authService.getUser());
     if (authService.getUser()) setUser(authService.getUser());
   }, []);
 
