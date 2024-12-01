@@ -11,12 +11,12 @@ const authService = {
   isAuthenticated: false,
   user: undefined,
 
-  loginToAPI: async function() {
+  loginToAPI: async function(user) {
     try {
       const params = new URLSearchParams();
 
-      params.append("username", "walter.bates");
-      params.append("password", "bpm");
+      params.append("username", user.username);
+      params.append("password", user.username);
 
       const response = await axios.post(urlBonita + `/loginservice`, params, {
         headers: {
@@ -43,7 +43,7 @@ const authService = {
       });
 
       jwt = response.data.token;
-      this.loginToAPI();
+      this.loginToAPI(response.data.data.user);
 
       return response.data.data.user;
     } catch (error) {

@@ -41,10 +41,6 @@ const MisRecorridos = () => {
                   className="bg-white shadow-md p-4 rounded-lg border"
                 >
                   <h2 className="text-lg font-bold">Recorrido #{orden.id}</h2>
-                  <p className="text-sm text-gray-500">
-                    Fecha de creación:{" "}
-                    {new Date(orden.createdAt).toLocaleDateString()}
-                  </p>
                   <p className="text-sm mt-2 text-gray-600">
                     Materiales incluidos:{" "}
                     {orden.materials

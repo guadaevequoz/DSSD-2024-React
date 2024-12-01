@@ -21,7 +21,7 @@ const confirmRoute = async (caseId, materials) => {
     const response = await axios.put(
       url + `/bpm/humanTask/${route[0].id}`,
       {
-        assigned_id: 1,
+        assigned_id: authService.getUser().bonitaUserId,
         state: "completed",
         variables: [
           {
@@ -195,7 +195,7 @@ const sendOrder = async (order) => {
 
     const response = await axios.put(url + `/bpm/humanTask/${firstResponse.data[0].id}`,
       {
-        "assigned_id": 1,
+        "assigned_id": authService.getUser().bonitaUserId,
         "state": "completed"
       },
       {
